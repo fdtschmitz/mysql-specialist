@@ -1,4 +1,5 @@
 create database oficina;
+
 use oficina;
 
 -- criação da tabela cadastro Cliente
@@ -22,8 +23,9 @@ create table vehicle(
     Model varchar(45),
     Plate varchar(9),
     Color varchar(10),
-    Year varchar(5),
-    constraint fk_idClient foreign key (idVehicle) references clients(idClient)
+    Vyear varchar(5),
+    idClient int not null,
+    constraint fk_idClient foreign key (idClient) references clients(idClient)
 );
 
 alter table vehicle auto_increment=1;
@@ -48,7 +50,8 @@ create table mechanical(
     Email varchar(45),
     constraint unique_cpf_client unique (CPF),
     Expertise varchar(45),
-    constraint fk_mechteam foreign key (idMechanical) references mechteam(idMechteam)
+    IdMechteam int not null,
+    constraint fk_mechteam foreign key (idMechteam) references mechteam(idMechteam)
 );
 
 alter table mechanical auto_increment=1;
@@ -56,6 +59,7 @@ alter table mechanical auto_increment=1;
 -- criação da tabela cadastro Estoque
 create table stock(
 	idStock int auto_increment primary key,
+    sDesc varchar(45),
     Quantity int,
     Minstock int
 );
@@ -108,7 +112,7 @@ create table serviceorder(
     Vparts decimal(10,2),
     Vservice decimal(10,2),
     SOstatus varchar(45),
-    SOconclusion date,
+    SOconclusion datetime,
     idVehicle int not null,
     idClient int not null,
     idMechteam int not null,
@@ -116,6 +120,7 @@ create table serviceorder(
     constraint fk_so_client foreign key (idClient) references customservice(idClient),
     constraint fk_so_mechteam foreign key (idMechteam) references customservice(idMechteam)
 );
+
 
 
 -- criação da tabela relacionamento Estoque Disponível
