@@ -203,6 +203,17 @@ JOIN vehicle v on so.idVehicle = v.idVehicle
 JOIN clients c on so.idClient = c.idClient;
 
 -- Ordem de serviço acima de X valor:
-
-
-
+SELECT
+    so.idserviceorder, 
+    so.Emission,
+    so.Vparts,
+    so.Vservice,
+    so.SOstatus,
+    so.SOconclusion,
+    (so.Vparts + so.Vservice) AS TotalPrice,
+    CONCAT(v.Model, ' | ', v.Plate) as Vehicle,
+    CONCAT(c.Fname, ' ', c.Lname) as Clients
+FROM serviceorder so
+JOIN vehicle v on so.idVehicle = v.idVehicle
+JOIN clients c on so.idClient = c.idClient
+HAVING TotalPrice > 1000;
