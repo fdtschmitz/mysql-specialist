@@ -47,7 +47,31 @@ call new_order(1);
 call new_order(3);
 select * from orders;
 
-call update_order(5, '[{"product_id": 6, "quantity": 2}, {"product_id": 7, "quantity": 3}]');
+drop procedure print_products;
+delimiter \\
+CREATE PROCEDURE print_products(
+    IN p_idOrder INT,
+    IN p_productList TEXT
+)
+BEGIN
+    DECLARE product_id, quantity INT;
+	
+    SELECT
+		product_id.product_data,
+		quantity.product_data
+	FROM
+		json_table(
+			p_productList, '$[*]'
+            COLUMNS(
+				product_id INT PATH '$.product_id',
+                quantity INT PATH '$.quantity'
+			)
+		) AS product_data;    
+
+END \\
+DELIMITER ;
+
+call print_products(5, '[{"product_id": 6, "quantity": 2}, {"product_id": 7, "quantity": 3}]');
 
 CALL update_order(6, '[{"product_id": 1, "quantity": 1},
                         {"product_id": 4, "quantity": 1},
