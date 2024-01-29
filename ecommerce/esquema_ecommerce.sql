@@ -110,6 +110,7 @@ create table productSeller(
     primary key (idPseller, idPproduct),
     constraint fk_product_seller foreign key (idPseller) references seller(idSeller),
     constraint fk_product_product foreign key (idPproduct) references product(idProduct)
+    
 );
 
 create table productOrder(
@@ -139,6 +140,16 @@ create table productSupplier(
     constraint fk_product_supplier_supplier foreign key (idPsSupplier) references supplier(idSupplier),
     constraint fk_product_supplier_prodcut foreign key (idPsProduct) references product(idProduct)
 );
+
+create table old_clients(
+    idClient int auto_increment primary key,
+    Fname varchar(10),
+    Minit char(3),
+    Lname varchar(20),
+    CPF char(11) not null
+);
+
+alter table clients auto_increment=1;
 
 show tables;
 
